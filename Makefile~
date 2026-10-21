@@ -1,0 +1,26 @@
+# Makefile - OCaml
+SRC=Bienvenu_Vinchon_Projet_Cartes
+NODE=Node
+EDGE=Edge
+EXE=create_map
+ 
+.PHONY: clean
+
+$(EXE): $(SRC).ml $(EDGE).cmi $(EDGE).cmx $(NODE).cmi $(NODE).cmx
+	ocamlopt -I ~/.opam/latest/lib/graphics/ -o $@ $(EDGE).cmx $(NODE).cmx Graphics.cmxa $<
+
+
+$(EDGE).cmx: $(EDGE).ml $(EDGE).cmi
+	ocamlopt -c $(EDGE).ml
+
+$(EDGE).cmi: $(EDGE).mli
+	ocamlopt -c $(EDGE).mli
+
+$(NODE).cmx: $(NODE).ml $(NODE).cmi
+	ocamlopt -c $(NODE).ml
+
+$(NODE).cmi: $(NODE).mli
+	ocamlopt -c $(NODE).mli
+
+clean:
+	rm *.cmi *.cmo *.cmx *.o $(EXE) *~
